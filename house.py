@@ -6,7 +6,7 @@ bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
 
-filepath = "S:/Blender_Mittelalterstadt/Medival Assets/Medieval_houses.blend"
+filepath = "//Medival Assets/Medieval_houses.blend"
 coll_name = "Cube"
 link = False
 scene = bpy.context.scene
