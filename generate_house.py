@@ -23,12 +23,9 @@ except KeyError:
     scene.collection.children.link(link_to)
 
 def generateHouse(obj, x, y , angle):
-    a = random.randint(0, 3)
+    a = random.randint(0, 2)
     b = random.randint(0, 1)  # iwie noch die schilder adden
     house = []
-    #print(a, b)
-    #print("house")
-    #print(len(house))
     for coll in obj:
         if(b == 0 and (a == 0 or a == 2) and coll.name.endswith("Sign")):  # niedriges schild
             house_part = coll.copy()
@@ -59,22 +56,19 @@ def generateHouse(obj, x, y , angle):
             house_part = coll.copy()
             link_to.objects.link(house_part)
             house.append(house_part)
-    ob = []
-    #print("ob")
-    #print(len(ob))
-    for h in house:
-        if  (h.type == 'MESH'):
-            print("true")
-            ob.append(h)
-    
-    #print(len(ob))
-    #print("house")
-    #print(len(house))
-    ctx = bpy.context.copy()
-    ctx['active_object'] = ob[0]
-    ctx['selected_editable_objects'] = ob
-    bpy.ops.object.join(ctx)
-    #link_to.objects.link(ctx)
+    if(len(house) > 0):
+        ob = []
+        for h in house:
+            h.location.x = x
+            h.location.y += y
+            h.rotation_euler[2] = angle
+            if  (h.type == 'MESH'):
+                ob.append(h)
+        ctx = bpy.context.copy()
+        ctx['active_object'] = ob[0]
+        ctx['selected_editable_objects'] = ob
+        bpy.ops.object.join(ctx)
+        #link_to.objects.link(ctx)
 
 num = 1
 rad = 15
