@@ -2,9 +2,9 @@ import bpy
 import math
 import random
 # selektiert alle Objekte löscht selektierte objekte
-bpy.ops.object.select_all(action='SELECT')
-bpy.ops.object.delete(use_global=False, confirm=False)
-bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
+#bpy.ops.object.select_all(action='SELECT')
+#bpy.ops.object.delete(use_global=False, confirm=False)
+#bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
 
 filepath = "//Medival Assets/Medieval_houses-Kopie.blend"
 coll_name = "Main_"
@@ -22,14 +22,8 @@ except KeyError:
     link_to = bpy.data.collections.new(link_to_name)
     scene.collection.children.link(link_to)
 
-num = 10
-rad = 15
-nr = 0
-c = 1
-
-
-def generateHouse(obj):
-    a = random.randint(0, 3)
+def generateHouse(obj, x, y , angle):
+    a = random.randint(0, 2)
     b = random.randint(0, 1)  # iwie noch die schilder adden
     house = []
     for coll in obj:
@@ -62,27 +56,31 @@ def generateHouse(obj):
             house_part = coll.copy()
             link_to.objects.link(house_part)
             house.append(house_part)
-    ob = []
-    for h in house:
-        if  (h.type == 'MESH'):
-            print("true")
-            ob.append(h)
-    ctx = bpy.context.copy()
-    ctx['active_object'] = ob[0]
-    ctx['selected_editable_objects'] = ob
-    bpy.ops.object.join(ctx)
-    #o = bpy.context.object
-    #link_to.objects.link(o)
+    if(len(house) > 0):
+        ob = []
+        for h in house:
+            h.location.x = x
+            h.location.y += y
+            h.rotation_euler[2] = angle
+            if  (h.type == 'MESH'):
+                ob.append(h)
+        ctx = bpy.context.copy()
+        ctx['active_object'] = ob[0]
+        ctx['selected_editable_objects'] = ob
+        bpy.ops.object.join(ctx)
+        #link_to.objects.link(ctx)
 
-
-    #ctx = bpy.context.copy()
-    #ctx["active_object"] = house[0]
-    #ctx['selected_objects'] = house
-    #bpy.context.scene.objects.active = house[0]
-    #for i in house:
-    # i.select_set(True)
-    #bpy.context.view_layer.objects.active = i
-    #bpy.ops.object.join()
-
-
-generateHouse(data_to.objects)
+num = 1
+rad = 15
+nr = 0
+c = 1
+for j in range(10):
+    print(j)
+    for i in range(num):
+        x = math.sin(i/num * math.pi * 2) * rad * c
+        y = math.cos(i/num * math.pi * 2) * rad * c
+        angle = math.radians(random.randint(0,359))
+        generateHouse(data_to.objects, x, y, angle)
+        nr += 1
+    c += 0.5
+    num = num + 5
