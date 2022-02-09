@@ -4,14 +4,13 @@ import bpy
 import math
 from bpy.types import Operator
 
-#copy version con cityWall
 class citywall_OT_(Operator):
     #Addon
     bl_idname = "object.add_city_wall_and_tower"
     bl_label = "Add Citywall and Tower"
     bl_description = "Adds the citywall and towers as given by the user"
 
-    #Werden vom Userinput überschrieben siehe execute
+    #Werden vom Userinput teilweise überschrieben/neuberechnet siehe execute
     tower_count = 5
     radius = 50
     
@@ -25,12 +24,13 @@ class citywall_OT_(Operator):
     texture_scale = 20
  
     wall_height = 8
-    wall_thickness= tower_radius-0.5
-    inner_radius = radius - wall_thickness
+    wall_thickness= 0
+    inner_radius = 0
     
-    gate_radius =  math.radians(360/tower_count)
+    gate_radius =  0
     GATE_HEIGHT = 1
     GATE_WIDTH = 1.4
+    #todo: wenn identisch warum eigener Wert?
     wall_width = wall_thickness
     wall_vertices = 32
 
@@ -157,7 +157,7 @@ class citywall_OT_(Operator):
 
     #Keine Paramter löschen, wird zum Erkennen benögitgt 
     def execute(self, context):
-        #Userinput übernehmen
+        #Userinput übernehmen/ damit rechnen
         self.tower_count = context.scene.tower_count
         self.radius = context.scene.radius
 
@@ -165,6 +165,7 @@ class citywall_OT_(Operator):
         self.inner_radius = self.radius - self.wall_thickness
         
         self.gate_radius =  math.radians(360/self.tower_count)
+        #todo: warum eigener Wert?
         self.wall_width = self.wall_thickness
 
         #Default 32 = Kreis
