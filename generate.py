@@ -2,7 +2,7 @@ import bpy
 import math
 import random
 
-from generate_house import generateHouse
+from generate_house_circle import generateHouse
 # selektiert alle Objekte löscht selektierte objekte
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)

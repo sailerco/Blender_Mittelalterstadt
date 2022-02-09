@@ -68,9 +68,11 @@ def generateHouse(obj, x, y , angle):
         ctx['active_object'] = ob[0]
         ctx['selected_editable_objects'] = ob
         bpy.ops.object.join(ctx)
+        ob = []
+    house = []
         #link_to.objects.link(ctx)
 
-num = 1
+num = 10
 rad = 15
 nr = 0
 c = 1
