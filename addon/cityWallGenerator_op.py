@@ -154,13 +154,6 @@ class citywall_OT_(Operator):
         self.generateGates()
         #door calc
            
-    
-#bpy.ops.object.select_all(action='SELECT') # selektiert alle Objekte
-#bpy.ops.object.delete(use_global=False, confirm=False) # löscht selektierte objekte
-#bpy.ops.outliner.orphans_purge() # löscht überbleibende Meshdaten etc.
-
-
-
 
     #Keine Paramter löschen, wird zum Erkennen benögitgt 
     def execute(self, context):
@@ -172,7 +165,7 @@ class citywall_OT_(Operator):
 
         #Default 32 = Kreis
         if(context.scene.is_round == False):
-            wall_vertices = self.tower_count
+            self.wall_vertices = self.tower_count
 
         self.generate_towers()
         self.generate_wall()
