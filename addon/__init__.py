@@ -12,9 +12,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import bpy
 
+
 from .test_op import test_OT_test
 from .test_op import PROPS
 from .mittelalter_PT_panel import mittelalter_PT_panel
+from .cityWallGenerator_op import citywall_OT_
 
 
 bl_info = {
@@ -29,7 +31,7 @@ bl_info = {
 }
 
 # Alle Operationen die über das Addon ausgeführt werden können + Panel 
-classes = (mittelalter_PT_panel, test_OT_test)
+classes = (mittelalter_PT_panel, test_OT_test, citywall_OT_)
 
 def register():
     for(prop_name, prop_value) in PROPS:
