@@ -5,8 +5,8 @@ import math
 class cityWall():
 
     TOWER_COUNT = 10
-    RADIUS = 30
-
+    RADIUS = 50
+    
     tower_height = 12
     tower_radius = 2
     wall_thickness = 0.5
@@ -20,6 +20,13 @@ class cityWall():
     wall_thickness=tower_radius-0.5
     INNER_RADIUS = RADIUS - wall_thickness
     
+    gate_radius =  math.radians(360/TOWER_COUNT)
+    GATE_HEIGHT = 1
+    GATE_WIDTH = 1.4
+    WALL_WIDTH = wall_thickness
+    
+    x = []
+    y = []
    
 
 
@@ -61,14 +68,37 @@ class cityWall():
     def generate_towers(self):
         for i in range(self.TOWER_COUNT):
         #my_tower = tower()
-            tower_location=((math.sin(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS, math.cos(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS, self.tower_height/2))
+            x_value = math.sin(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS
+            y_value = math.cos(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS
+            tower_location=(x_value, y_value, self.tower_height/2)
+            self.x.append(x_value)
+            self.y.append(y_value)
             self.generate_base(tower_location, self.tower_height)
 
             t = bpy.context.object
     
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i), orient_axis='Z', orient_type='GLOBAL')
     
-    
+    def generateGates(self):
+        print("start")
+        x1 = self.x[0]
+        y1 = self.y[0]
+        for i in range(len(self.x)+1):
+            x_value = math.sin(2*math.pi/self.TOWER_COUNT * (i + 0.5)) * self.RADIUS -1
+            y_value = math.cos(2*math.pi/self.TOWER_COUNT * (i +0.5)) * self.RADIUS -1
+            # if(i != len(self.x)):
+            #     print(i)
+            #     x_value = self.x[i+1]-self.x[i]
+            #     y_value = self.y[i+1]-self.y[i]
+            # else:
+            #     print("10")
+            #     x_value = self.x[0]-self.x[i]
+            #     y_value = self.x[0]-self.x[i]
+            gate_cube = bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.WALL_WIDTH + 1, self.GATE_WIDTH, self.GATE_HEIGHT))
+            bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
+            gate_cylinder = bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.WALL_WIDTH + 1))
+            bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
+            bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
 ##generiert Stadtmauer
     def generate_wall(self):
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.TOWER_COUNT, radius=self.RADIUS, depth=self.wall_height, location=(0, 0, self.wall_height/2))
@@ -122,9 +152,11 @@ class cityWall():
         cylinder_top_inner = bpy.context.object
         boolean_cylinder_top = cylinder_top.modifiers.new("booleantop", "BOOLEAN")
         boolean_cylinder_top.object = cylinder_top_inner
-      
         
-
+        self.generateGates()
+        #door calc
+           
+    
 
 bpy.ops.object.select_all(action='SELECT') # selektiert alle Objekte
 bpy.ops.object.delete(use_global=False, confirm=False) # löscht selektierte objekte
@@ -135,17 +167,7 @@ cw = cityWall()
 cw.generate_towers()
 cw.generate_wall()
 
-
-
-
-GATE_HEIGHT = 1
-GATE_WIDTH = 1.4
-WALL_WIDTH = 1
-
 #Spawnen von gescaltem Cube und Zylinder
-gate_cube = bpy.ops.mesh.primitive_cube_add(enter_editmode=False, align='WORLD', location=(0, 0, 0), scale=(WALL_WIDTH + 1, GATE_WIDTH, GATE_HEIGHT))
-gate_cylinder = bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(0, 0, GATE_HEIGHT), scale=(1, GATE_WIDTH, WALL_WIDTH + 1))
-bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
 
 #Platzieren von Objekten an richtiger Location
 
