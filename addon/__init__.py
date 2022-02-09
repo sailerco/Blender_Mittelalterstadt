@@ -13,12 +13,14 @@
 import bpy
 
 from .test_op import test_OT_test
+from .test_op import PROPS
 from .mittelalter_PT_panel import mittelalter_PT_panel
+
 
 bl_info = {
     "name" : "Mittelalterstadt generieren",
     "author" : "Corinna Simon Janina Tamara",
-    "description" : "",
+    "description" : "Creates a medieval town with a wall and towers surrounding it.",
     "blender" : (2, 80, 0),
     "version" : (0, 0, 1),
     "location" : "View3D",
@@ -26,15 +28,19 @@ bl_info = {
     "category" : "Object"
 }
 
+# Alle Operationen die über das Addon ausgeführt werden können + Panel 
 classes = (mittelalter_PT_panel, test_OT_test)
- 
+
 def register():
-    for item in classes:
-        bpy.utils.register_class(item)
+    for(prop_name, prop_value) in PROPS:
+        setattr(bpy.types.Scene, prop_name, prop_value)
+    
+    for c in classes:
+        bpy.utils.register_class(c)
 
 def unregister():
-    for item in classes:
-        bpy.utils.unregister_class(item)
+    for(prop_name, _) in PROPS:
+        delattr(bpy.types.Scene, prop_name)
 
-if __name__ == "__main__":
-    register()
+    for c in classes:
+        bpy.utils.unregister_class(c)
