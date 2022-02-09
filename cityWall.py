@@ -134,3 +134,20 @@ bpy.ops.outliner.orphans_purge() # löscht überbleibende Meshdaten etc.
 cw = cityWall()
 cw.generate_towers()
 cw.generate_wall()
+
+
+
+
+GATE_HEIGHT = 1
+GATE_WIDTH = 1.4
+WALL_WIDTH = 1
+
+#Spawnen von gescaltem Cube und Zylinder
+gate_cube = bpy.ops.mesh.primitive_cube_add(enter_editmode=False, align='WORLD', location=(0, 0, 0), scale=(WALL_WIDTH + 1, GATE_WIDTH, GATE_HEIGHT))
+gate_cylinder = bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(0, 0, GATE_HEIGHT), scale=(1, GATE_WIDTH, WALL_WIDTH + 1))
+bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
+
+#Platzieren von Objekten an richtiger Location
+
+#Einfach Code kopieren von Turmplatzierung (bzw dort reinkopieren)
+#Da dann Abstandsberechnung für Position und halben Winkelabstand für Rotation
