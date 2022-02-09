@@ -2,8 +2,10 @@ import bpy
 from bpy.types import Operator
 
 PROPS=  [
-            ('myIntValue', bpy.props.IntProperty(name = 'Tower', description='int value of Towers', default=7, min=4, max=15)),
-            ('myBooleanValue', bpy.props.BoolProperty(name='Show church', default=True))
+            ('towerCount', bpy.props.IntProperty(name = 'Tower', description='int value of Towers', default=7, min=4, max=15)),
+            ('radius', bpy.props.IntProperty(name = 'Radius', description='int value of Radius', default=25, min=4, max=95)),
+            ('hasChurch', bpy.props.BoolProperty(name='Show church', default=True)),
+            ('isRound', bpy.props.BoolProperty(name='Round shape', default=False))
         ]
 
 class test_OT_test(Operator):

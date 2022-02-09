@@ -137,8 +137,6 @@ class cityWall():
         ##bpy.context.object.modifiers["boolean"].operation = 'DIFFERENCE'
         #bpy.ops.object.modifier_apply(apply_as='DATA', modifier="boolean")
 
-
-
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.TOWER_COUNT, radius=self.RADIUS + self.RADIUS*0.01, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
         
         mat_wall_top = bpy.data.materials.new("material_wall_top")
