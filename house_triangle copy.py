@@ -1,15 +1,14 @@
+from cmath import sqrt
 import bpy
 import math
 import random
-
-from generate_house_circle import generateHouse
 # selektiert alle Objekte löscht selektierte objekte
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
 
-filepath = "//Medival Assets/Medieval_houses_red.blend"
-coll_name = "Main_"
+filepath = "//Medival Assets/Medieval_houses.blend"
+coll_name = "Cube"
 link = False
 scene = bpy.context.scene
 link_to_name = "Environment"
@@ -23,22 +22,28 @@ except KeyError:
     link_to = bpy.data.collections.new(link_to_name)
     scene.collection.children.link(link_to)
 
-num = 10
-rad = 15
-nr = 0
-c = 1
-for j in range(10):
+num = 10 # how many houses
+rad = 12 # rad pro kreis
+totalRadius = 100
+rows = int((totalRadius/rad))
+print(rows)
+nr = 0 # name of object
+c = 1 
+for j in range(rows):
     for i in range(num):
-        obj = generateHouse(data_to.objects)
-        obj1 = obj.copy()
-        obj1.name = obj1.name + "_" + str(nr)
-        link_to.objects.link(obj1)
         x = math.sin(i/num * math.pi * 2) * rad * c
         y = math.cos(i/num * math.pi * 2) * rad * c
-        angle = math.radians(random.randint(0,359))
-        obj1.location.x = x
-        obj1.location.y = y
-        obj1.rotation_euler[2] = angle
+        a = math.sqrt(pow(y, 2) + pow(x,2))
+        if(int(a) <= totalRadius):
+            a = random.randint(0,10)
+            obj = data_to.objects[a]
+            obj1 = obj.copy()
+            obj1.name = obj1.name + "_" + str(nr)
+            link_to.objects.link(obj1)
+            angle = math.radians(random.randint(0,359))
+            obj1.location.x = x
+            obj1.location.y = y
+            obj1.rotation_euler[2] = angle
         nr += 1
     c += 0.5
     num = num + 5

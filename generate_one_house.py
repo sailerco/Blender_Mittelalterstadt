@@ -7,7 +7,7 @@ print("delete")
 # bpy.ops.object.delete(use_global=False, confirm=False)
 # bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
 print("dddd")
-filepath = "//Medival Assets/Medieval_houses-Kopie.blend"
+filepath = "//Medival Assets/Medieval_houses_red.blend"
 coll_name = "Main_"
 link = False
 scene = bpy.context.scene
