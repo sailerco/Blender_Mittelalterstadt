@@ -5,7 +5,7 @@ import math
 
 class cityWall():
 
-    TOWER_COUNT = 5
+    TOWER_COUNT = 10
     RADIUS = 50
     
     tower_height = 12
