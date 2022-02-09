@@ -11,9 +11,9 @@ class citywall_OT_(Operator):
     bl_label = "Add Citywall and Tower"
     bl_description = "Adds the citywall and towers as given by the user"
 
-
-    TOWER_COUNT = 10
-    RADIUS = 50
+    #Werden vom Userinput überschrieben siehe execute
+    tower_count = 5
+    radius = 50
     
     tower_height = 12
     tower_radius = 2
@@ -25,18 +25,14 @@ class citywall_OT_(Operator):
     texture_scale = 20
  
     wall_height = 8
-    wall_thickness=tower_radius-0.5
-    INNER_RADIUS = RADIUS - wall_thickness
+    wall_thickness= tower_radius-0.5
+    inner_radius = radius - wall_thickness
     
-    gate_radius =  math.radians(360/TOWER_COUNT)
+    gate_radius =  math.radians(360/tower_count)
     GATE_HEIGHT = 1
     GATE_WIDTH = 1.4
     WALL_WIDTH = wall_thickness
-    kreis = False
-    if(kreis):
-        wall_vertices = 32
-    else:
-        wall_vertices = TOWER_COUNT
+    wall_vertices = 32
 
 ## generiert einzelnen Turm
     def generate_base(self, tower_location, tower_height):
@@ -74,34 +70,34 @@ class citywall_OT_(Operator):
         
 ##generiert alle Türme
     def generate_towers(self):
-        for i in range(self.TOWER_COUNT):
+        for i in range(self.tower_count):
         #my_tower = tower()
-            x_value = math.sin(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS
-            y_value = math.cos(2*math.pi/self.TOWER_COUNT * i) * self.RADIUS
+            x_value = math.sin(2*math.pi/self.tower_count * i) * self.radius
+            y_value = math.cos(2*math.pi/self.tower_count * i) * self.radius
             tower_location=(x_value, y_value, self.tower_height/2)
             self.generate_base(tower_location, self.tower_height)
 
             t = bpy.context.object
     
-            bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i), orient_axis='Z', orient_type='GLOBAL')
+            bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i), orient_axis='Z', orient_type='GLOBAL')
     
     def generateGates(self):
         print("start")
-        for i in range(self.TOWER_COUNT+1):
-            x_value = math.sin(2*math.pi/self.TOWER_COUNT * (i + 0.5)) * self.RADIUS -1
-            y_value = math.cos(2*math.pi/self.TOWER_COUNT * (i +0.5)) * self.RADIUS -1
+        for i in range(self.tower_count+1):
+            x_value = math.sin(2*math.pi/self.tower_count * (i + 0.5)) * self.radius -1
+            y_value = math.cos(2*math.pi/self.tower_count * (i +0.5)) * self.radius -1
            
             gate_cube = bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.WALL_WIDTH + 1, self.GATE_WIDTH, self.GATE_HEIGHT))
-            bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
+            bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i+math.pi/self.tower_count) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
             gate_cylinder = bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.WALL_WIDTH + 1))
             bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-            bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
+            bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i+math.pi/self.tower_count) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
 
 
 
 ##generiert Stadtmauer
     def generate_wall(self):
-        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.RADIUS, depth=self.wall_height, location=(0, 0, self.wall_height/2))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.radius, depth=self.wall_height, location=(0, 0, self.wall_height/2))
        
 
         mat_wall = bpy.data.materials.new("material_wall")
@@ -127,7 +123,7 @@ class citywall_OT_(Operator):
 
 
         cube_contextBigC = bpy.context.object 
-        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.INNER_RADIUS, depth=self.wall_height, location=(0, 0, self.wall_height/2))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.inner_radius, depth=self.wall_height, location=(0, 0, self.wall_height/2))
        
         bpy.context.object.display_type = 'WIRE'
 
@@ -139,7 +135,7 @@ class citywall_OT_(Operator):
         #bpy.ops.object.modifier_apply(apply_as='DATA', modifier="boolean")
 
 
-        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.RADIUS + self.RADIUS*0.01, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.radius + self.radius*0.01, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
         
         
         mat_wall_top = bpy.data.materials.new("material_wall_top")
@@ -148,7 +144,7 @@ class citywall_OT_(Operator):
         bpy.context.object.data.materials.append(mat_wall_top) 
         
         cylinder_top = bpy.context.object 
-        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.INNER_RADIUS, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.inner_radius, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
        
         bpy.context.object.display_type = 'WIRE'
         cylinder_top_inner = bpy.context.object
@@ -168,9 +164,16 @@ class citywall_OT_(Operator):
 
     #Keine Paramter löschen, wird zum Erkennen benögitgt 
     def execute(self, context):
-        #todo
-        print('TEST')
-        
+        #Userinput übernehmen
+        self.tower_count = context.scene.tower_count
+        self.radius = context.scene.radius
+
+        print(self.wall_vertices)
+
+        #Default 32 = Kreis
+        if(context.scene.is_round == False):
+            wall_vertices = self.tower_count
+
         self.generate_towers()
         self.generate_wall()
 
