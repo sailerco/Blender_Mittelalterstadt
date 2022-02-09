@@ -6,7 +6,7 @@ bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 bpy.ops.outliner.orphans_purge()  # löscht überbleibende Meshdaten etc.
 
-filepath = "//Medival Assets/Medieval_houses-Kopie.blend"
+filepath = "//Medival Assets/Medieval_houses_red.blend"
 coll_name = "Main_"
 link = False
 scene = bpy.context.scene
@@ -47,6 +47,8 @@ def generateHouse(obj):
             house_part = coll.copy()
             if(coll.name.startswith("Main_House") or coll.name.startswith("Main_Chimney") or coll.name.startswith("Main_Roof_")):
                 house_part.location.z = house_part.location.z + 0.599418*2
+            if(coll.name.startswith("Main_Roof_")):
+                print(house_part.material)
             if(coll.name.startswith("Main_Door")):
                 house_part.location.y = 1.2717
             link_to.objects.link(house_part)

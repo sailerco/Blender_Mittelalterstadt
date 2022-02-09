@@ -21,23 +21,40 @@ except KeyError:
     link_to = bpy.data.collections.new(link_to_name)
     scene.collection.children.link(link_to)
 
-num = 10
-rad = 15
+rad = 10
 nr = 0
 c = 1
+TOWER_COUNT = 5
+RADIUS = 50
 for j in range(10):
-    for i in range(num):
-        a = random.randint(0,10)
-        obj = data_to.objects[a]
-        obj1 = obj.copy()
-        obj1.name = obj1.name + "_" + str(nr)
-        link_to.objects.link(obj1)
-        x = math.sin(i/num * math.pi * 2) * rad * c
-        y = math.cos(i/num * math.pi * 2) * rad * c
-        angle = math.radians(random.randint(0,359))
-        obj1.location.x = x
-        obj1.location.y = y
-        obj1.rotation_euler[2] = angle
-        nr += 1
+    for i in range(TOWER_COUNT):
+        x1 = math.sin(i/TOWER_COUNT * math.pi * 2) * rad * c
+        y1 = math.cos(i/TOWER_COUNT * math.pi * 2) * rad * c
+        x2 = math.sin((i+1)/TOWER_COUNT * math.pi * 2) * rad * c
+        y2 = math.cos((i+1)/TOWER_COUNT * math.pi * 2) * rad * c
+        #steigung
+        a = math.sqrt(pow(x2-x1, 2) + pow(y2-y1,2))
+        x3 = x1 - x2
+        y3 = y1 - y2
+        xy = a
+        count = 0
+        print("x3")
+        print(x3)
+        for p in range(i):
+            #random haus
+            a = random.randint(0,10)
+            obj = data_to.objects[a]
+            obj1 = obj.copy()
+            obj1.name = obj1.name + "_" + str(nr)
+            link_to.objects.link(obj1)
+            x = x1 + xy*p
+            y = y1 + xy*p
+            print("x y")
+            print(x,y)
+            angle = math.radians(random.randint(0,359))
+            obj1.location.x = x
+            obj1.location.y = y
+            obj1.rotation_euler[2] = angle
+            nr += 1
+            count += 1
     c += 0.5
-    num = num + 5
