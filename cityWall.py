@@ -78,17 +78,38 @@ class cityWall():
     
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i), orient_axis='Z', orient_type='GLOBAL')
     
-    def generateGates(self):
+    def generateGates(self, wall):
         print("start")
+        
+        wall_obj = wall;
+        
         for i in range(self.TOWER_COUNT+1):
             x_value = math.sin(2*math.pi/self.TOWER_COUNT * (i + 0.5)) * self.RADIUS -1
             y_value = math.cos(2*math.pi/self.TOWER_COUNT * (i +0.5)) * self.RADIUS -1
            
-            gate_cube = bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.WALL_WIDTH + 1, self.GATE_WIDTH, self.GATE_HEIGHT))
+            #gate_cube =      
+            bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.WALL_WIDTH + 1, self.GATE_WIDTH, self.GATE_HEIGHT))
+            gate_cube = bpy.context.object
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
-            gate_cylinder = bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.WALL_WIDTH + 1))
+            #bpy.context.object.display_type = 'WIRE'
+            bpy.context.object.hide_viewport = True
+            
+            
+            wall_boolean = wall_obj.modifiers.new("booleantop", "BOOLEAN")
+            wall_boolean.object = gate_cube
+            
+            #gate_cylinder = 
+            bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.WALL_WIDTH + 1))
+            gate_cylinder = bpy.context.object
             bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
+            #bpy.context.object.display_type = 'WIRE'
+            bpy.context.object.hide_viewport = True
+            
+            
+            wall_boolean = wall_obj.modifiers.new("booleantop", "BOOLEAN")
+            wall_boolean.object = gate_cylinder
+            
 
 
 
@@ -114,7 +135,7 @@ class cityWall():
         ##Brick Höhe
         node_brick.inputs[9].default_value = 0.65
         ##Brick Länge
-        node_brick.inputs[8].default_value = 0.35
+        node_brick.inputs[8].default_value = 0.1
 
         node_brick.inputs[5].default_value = 0.01
 
@@ -125,13 +146,14 @@ class cityWall():
         cube_contextBigC = bpy.context.object 
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.INNER_RADIUS, depth=self.wall_height, location=(0, 0, self.wall_height/2))
        
-        bpy.context.object.display_type = 'WIRE'
+        #bpy.context.object.display_type = 'WIRE'
+        bpy.context.object.hide_viewport = True
 
         cube_context = bpy.context.object          
         boolean_mod = cube_contextBigC.modifiers.new("boolean", "BOOLEAN")
         boolean_mod.object = cube_context
 
-        ##bpy.context.object.modifiers["boolean"].operation = 'DIFFERENCE'
+        #bpy.context.object.modifiers["boolean"].operation = 'DIFFERENCE'
         #bpy.ops.object.modifier_apply(apply_as='DATA', modifier="boolean")
 
 
@@ -147,12 +169,13 @@ class cityWall():
         cylinder_top = bpy.context.object 
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.INNER_RADIUS, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
        
-        bpy.context.object.display_type = 'WIRE'
+        #bpy.context.object.display_type = 'WIRE'
+        bpy.context.object.hide_viewport = True
         cylinder_top_inner = bpy.context.object
         boolean_cylinder_top = cylinder_top.modifiers.new("booleantop", "BOOLEAN")
         boolean_cylinder_top.object = cylinder_top_inner
         
-        self.generateGates()
+        self.generateGates(cube_contextBigC)
         #door calc
            
     

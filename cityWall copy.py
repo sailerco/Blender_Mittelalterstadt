@@ -131,8 +131,8 @@ class cityWall():
         boolean_mod = cube_contextBigC.modifiers.new("boolean", "BOOLEAN")
         boolean_mod.object = cube_context
 
-        ##bpy.context.object.modifiers["boolean"].operation = 'DIFFERENCE'
-        #bpy.ops.object.modifier_apply(apply_as='DATA', modifier="boolean")
+        bpy.context.object.modifiers["boolean"].operation = 'DIFFERENCE'
+        bpy.ops.object.modifier_apply(apply_as='DATA', modifier="boolean")
 
 
 
