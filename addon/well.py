@@ -20,6 +20,9 @@ class well:
         well_data = data_to.objects[0]
         well = well_data.copy()
         well.name = well.name
-        well.postition.y = 8
+        well.location.y = 8
         well.rotation_euler[2] = math.pi/2
         link_to.objects.link(well)
+# x = well()
+# x.generateWell()
+    
