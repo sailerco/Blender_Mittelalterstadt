@@ -12,6 +12,10 @@ class cityWall():
     tower_radius = 2
     wall_thickness = 0.5
 
+    tower_color_R = 0.37
+    tower_color_G = 0.41
+    tower_color_B = 0.49
+
     roof_height = 4
     roof_overhang = 0.5
 
@@ -24,6 +28,10 @@ class cityWall():
     wall_height = 8
     wall_thickness=tower_radius-0.5
     INNER_RADIUS = RADIUS - wall_thickness
+
+    wall_color_R = 0.3
+    wall_color_G = 0.3
+    wall_color_B = 0.3
     
     gate_radius =  math.radians(360/TOWER_COUNT)
     GATE_HEIGHT = 4
@@ -57,7 +65,7 @@ class cityWall():
 
 
         node_brick.inputs[1].default_value = [0.35, 0.35, 0.35, 1.0]
-        node_brick.inputs[1].default_value = [0.11, 0.13, 0.19, 1.0]
+        node_brick.inputs[1].default_value = [self.tower_color_R, self.tower_color_G, self.tower_color_B, 1.0]
         node_brick.inputs[4].default_value = self.texture_scale
 
         bpy.context.object.data.materials.append(mat_tower_base)
@@ -134,7 +142,7 @@ class cityWall():
         mat_wall.node_tree.links.new(node_brick.outputs[0], node_principled.inputs[0])
         mat_wall.node_tree.links.new(node_coords.outputs[2], node_brick.inputs[0])
         node_brick.inputs[1].default_value = [0.35, 0.35, 0.35, 1.0]
-        node_brick.inputs[1].default_value = [0.11, 0.13, 0.19, 1.0]
+        node_brick.inputs[1].default_value = [self.wall_color_R, self.wall_color_G, self.wall_color_B, 1.0]
         ##Brick Scale
         node_brick.inputs[4].default_value = 50
         ##Brick Höhe
