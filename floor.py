@@ -16,10 +16,6 @@ class floor():
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.RADIUS, depth=0.01, location=(0, 0, 0))
 
         ##Textur
-        #bpy.ops.material.new()
-        #bpy.context.object.active_material.name = "FloorTexture"
-        #bpy.data.materials["FloorTexture"].node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.197973, 0.8, 0.141901, 1)
-
         mat_floor = bpy.data.materials.new("floor_material")
         mat_floor.use_nodes = True
         
