@@ -11,14 +11,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import bpy
-
-
 from .test_op import test_OT_test
 from .test_op import PROPS
 from .mittelalter_PT_panel import mittelalter_PT_panel
 from .cityWallGenerator_op import citywall_OT_
 from .clear_workspace_op import clear_workspace_OT_
-
 
 bl_info = {
     "name" : "Mittelalterstadt generieren",

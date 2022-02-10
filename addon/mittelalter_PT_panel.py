@@ -8,9 +8,6 @@ class mittelalter_PT_panel(Panel):
     # space und region zuständig für Ort der Darstellung, nicht ändern
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    # bl_space_type = "PROPERTIES"
-    # bl_region_type = "WINDOW"
-    # bl_context = "material"
     bl_label = "Mittelalterstadt generieren"
     bl_category = "Mittelalterstadt"
 

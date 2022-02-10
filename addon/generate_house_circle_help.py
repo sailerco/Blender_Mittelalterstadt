@@ -73,7 +73,7 @@ class generate_house_circle:
         for j in range(rows):
             for i in range(house_number_per_circle):
                 angle = math.radians(random.randint(0,359))
-                if tower_count < 8 and j == rows-1 and is_round == False and radius < 40:                #fügt Häuser an Ecken ein bei wenig Ecken
+                if tower_count < 8 and j == rows-1 and is_round == False and radius < 40:        #fügt Häuser an Ecken ein bei wenig Ecken
                     for z in range(tower_count):
                         x = math.sin(math.pi * 2/tower_count*(z)) * rad * add_radius
                         y = math.cos(math.pi * 2/tower_count*(z)) * rad * add_radius

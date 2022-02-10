@@ -5,6 +5,7 @@ import math
 from bpy.types import Operator
 
 from addon.generate_house_circle_help import generate_house_circle
+from addon.well_help import well
 from .church_help import church
 
 class citywall_OT_(Operator):
@@ -209,6 +210,9 @@ class citywall_OT_(Operator):
 
         houseClass = generate_house_circle()
         houseClass.generate(self.tower_count, self.radius, context.scene.is_round, self.wall_thickness)
+
+        wellClass = well()
+        wellClass.generateWell()
 
         #User will Kirche
         if context.scene.has_church:
