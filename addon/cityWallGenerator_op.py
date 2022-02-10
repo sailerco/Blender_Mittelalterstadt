@@ -47,7 +47,6 @@ class citywall_OT_(Operator):
         mod_solid = bpy.context.object.modifiers.new('Wall Thickness','SOLIDIFY')
         mod_solid.thickness = self.wall_thickness
         
-
         mat_tower_base = bpy.data.materials.new("tower_base")
         mat_tower_base.use_nodes = True
 
@@ -98,7 +97,6 @@ class citywall_OT_(Operator):
             bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i+math.pi/self.tower_count) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
             bpy.context.object.hide_viewport = True
             
-            
             wall_boolean = wall_obj.modifiers.new("booleantop", "BOOLEAN")
             wall_boolean.object = gate_cube
             
@@ -109,7 +107,6 @@ class citywall_OT_(Operator):
             bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i+math.pi/self.tower_count) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
             bpy.context.object.hide_viewport = True
             
-            
             wall_boolean = wall_obj.modifiers.new("booleantop", "BOOLEAN")
             wall_boolean.object = gate_cylinder
 
@@ -118,7 +115,6 @@ class citywall_OT_(Operator):
     def generate_wall(self):
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.radius, depth=self.wall_height, location=(0, 0, self.wall_height/2))
        
-
         mat_wall = bpy.data.materials.new("material_wall")
         mat_wall.use_nodes = True
         nodes = mat_wall.node_tree.nodes
@@ -135,24 +131,19 @@ class citywall_OT_(Operator):
         node_brick.inputs[9].default_value = 0.65
         ##Brick Länge
         node_brick.inputs[8].default_value = 0.35
-
         node_brick.inputs[5].default_value = 0.01
 
         bpy.context.object.data.materials.append(mat_wall)
 
-
         cube_contextBigC = bpy.context.object 
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.inner_radius, depth=self.wall_height, location=(0, 0, self.wall_height/2))
-       
-        bpy.context.object.display_type = 'WIRE'
+        bpy.context.object.hide_viewport = True
 
         cube_context = bpy.context.object          
         boolean_mod = cube_contextBigC.modifiers.new("boolean", "BOOLEAN")
         boolean_mod.object = cube_context
 
-
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.radius + self.radius*0.01, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
-        
         
         mat_wall_top = bpy.data.materials.new("material_wall_top")
         mat_wall_top.use_nodes = True
@@ -162,13 +153,12 @@ class citywall_OT_(Operator):
         cylinder_top = bpy.context.object 
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.inner_radius, depth=self.wall_height*0.02, location=(0, 0, self.wall_height))
        
-        bpy.context.object.display_type = 'WIRE'
+        bpy.context.object.hide_viewport = True
         cylinder_top_inner = bpy.context.object
         boolean_cylinder_top = cylinder_top.modifiers.new("booleantop", "BOOLEAN")
         boolean_cylinder_top.object = cylinder_top_inner
         
         self.generateGates(cube_contextBigC)
-        #door calc
 
     ## generiert Boden für die gesamte Stadt
     def generate_city_floor(self):
@@ -216,8 +206,6 @@ class citywall_OT_(Operator):
         self.generate_wall()
         self.generate_city_floor()
 
-        #todo:
-        #generate_house_circle.generate()
         houseClass = generate_house_circle()
         houseClass.generate(self.tower_count, self.radius, context.scene.is_round, self.wall_thickness)
 
