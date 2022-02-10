@@ -34,9 +34,6 @@ class floor():
         #Brick Länge
         node_floor.inputs[8].default_value = 0.2
        
-        
-
-
         bpy.context.object.data.materials.append(mat_floor) 
 
 
