@@ -20,6 +20,5 @@ class mittelalter_PT_panel(Panel):
             row = col.row()
             row.prop(context.scene, prop_name)
 
-        col.operator("object.apply_all_mods", text="test")
         col.operator("object.add_city_wall_and_tower", text="Generate")
         col.operator("object.delet_all", text="Clear Workspace")

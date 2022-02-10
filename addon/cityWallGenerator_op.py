@@ -4,11 +4,17 @@ import bpy
 import math
 from bpy.types import Operator
 
+from addon.generate_house_circle_help import generate_house_circle
+
 class citywall_OT_(Operator):
     #Addon
     bl_idname = "object.add_city_wall_and_tower"
     bl_label = "Add Citywall and Tower"
     bl_description = "Adds the citywall and towers as given by the user"
+
+    #für andere classes 
+    scene_context = bpy.context
+    scene_data = bpy.data
 
     #Werden vom Userinput teilweise überschrieben/neuberechnet siehe execute
     tower_count = 5
@@ -174,6 +180,11 @@ class citywall_OT_(Operator):
 
         self.generate_towers()
         self.generate_wall()
+
+        #todo:
+        #generate_house_circle.generate()
+        houseClass = generate_house_circle()
+        houseClass.generate(self.tower_count, self.radius, context.scene.is_round, self.wall_thickness)
 
         return{'FINISHED'}
 
