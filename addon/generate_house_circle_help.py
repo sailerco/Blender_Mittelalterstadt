@@ -4,7 +4,7 @@ import random
 from mathutils import Matrix
 
 class generate_house_circle:
-    # # https://blender.stackexchange.com/questions/34540/how-to-link-append-a-data-block-using-the-python-api?noredirect=1&lq=1
+    #https://blender.stackexchange.com/questions/34540/how-to-link-append-a-data-block-using-the-python-api?noredirect=1&lq=1
     filepath = "//Medival Assets/Medieval_houses_red.blend"
     coll_name = "Main_"
     link = False
@@ -27,8 +27,8 @@ class generate_house_circle:
     def generateHouse(self, x, y, angle, assets):
         link_to = self.generateCollection()
         offset = random.randint(-1, 1)*0.3
-        a = random.randint(0, 3)
-        b = random.randint(0, 2) 
+        a = random.randint(0, 3) #house type
+        b = random.randint(0, 2) #Sign?
         house = []
         for coll in assets:
             content = True
@@ -50,7 +50,6 @@ class generate_house_circle:
                     house_part.location.y = house_part.location.y - 0.3
             else:
                 content = False
-
             if content == True:
                 house.append(house_part)
                 link_to.objects.link(house_part)
@@ -61,7 +60,6 @@ class generate_house_circle:
             i.select_set(True)
 
     def generate(self, tower_count, radius, is_round, wall_thickness):
-        #r⋅cos α2=r⋅cos 180°n
         if(is_round == False):
             alpha_halbe = math.pi / tower_count
             inner_radius = radius * math.cos(alpha_halbe)
@@ -70,19 +68,12 @@ class generate_house_circle:
         add_radius = 1
         house_number_per_circle = 5 
         rad = 15
-        rows = round(((radius - wall_thickness - 3)/rad)) #3 = half house
-        
-        if tower_count == 7:
-            rows -= 1
-        #r = radius % rad
-        # if(radius > 75):
-        #     extra_rows = round((radius-75)/10)
-        #     rows += extra_rows
+        radius = radius - wall_thickness - 2.2 #2.2 = half house
+        rows = int(((radius)/rad))
         for j in range(rows):
             for i in range(house_number_per_circle):
                 angle = math.radians(random.randint(0,359))
-                #fügt Häuser an Ecken e#in bei wenig Ecken
-                if tower_count < 8 and j == rows-1 and is_round == False and radius < 75:
+                if tower_count < 8 and j == rows-1 and is_round == False and radius < 40:                #fügt Häuser an Ecken ein bei wenig Ecken
                     for z in range(tower_count):
                         x = math.sin(math.pi * 2/tower_count*(z)) * rad * add_radius
                         y = math.cos(math.pi * 2/tower_count*(z)) * rad * add_radius
@@ -94,5 +85,3 @@ class generate_house_circle:
                     self.generateHouse(x, y, angle, assets)
             add_radius += 1
             house_number_per_circle = house_number_per_circle + 5
-
-# mehrfaches ausführen funktioniert

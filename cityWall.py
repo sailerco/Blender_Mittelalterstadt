@@ -15,6 +15,10 @@ class cityWall():
     roof_height = 4
     roof_overhang = 0.5
 
+    roof_color_R = 0.07
+    roof_color_G = 0.31
+    roof_color_B = 0.19
+
     texture_scale = 20
 
     wall_height = 8
@@ -51,6 +55,7 @@ class cityWall():
         mat_tower_base.node_tree.links.new(node_brick.outputs[0], node_principled.inputs[0])
         mat_tower_base.node_tree.links.new(node_coords.outputs[2], node_brick.inputs[0])
 
+
         node_brick.inputs[1].default_value = [0.35, 0.35, 0.35, 1.0]
         node_brick.inputs[1].default_value = [0.11, 0.13, 0.19, 1.0]
         node_brick.inputs[4].default_value = self.texture_scale
@@ -59,7 +64,7 @@ class cityWall():
 
         mat_tower_roof = bpy.data.materials.new("tower_roof")
         mat_tower_roof.use_nodes = True
-        mat_tower_roof.node_tree.nodes["Principled BSDF"].inputs[0].default_value = [0.07, 0.31, 0.19, 1.0]
+        mat_tower_roof.node_tree.nodes["Principled BSDF"].inputs[0].default_value = [self.roof_color_R, self.roof_color_G, self.roof_color_B, 1.0]
 
         bpy.ops.mesh.primitive_cone_add(radius1= self.tower_radius + self.roof_overhang, radius2=0, depth=self.roof_height, location=(tower_location[0], tower_location[1], tower_height + self.roof_height / 2))
 
