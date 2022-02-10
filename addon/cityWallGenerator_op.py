@@ -5,6 +5,7 @@ import math
 from bpy.types import Operator
 
 from addon.generate_house_circle_help import generate_house_circle
+from .church_help import church
 
 class citywall_OT_(Operator):
     #Addon
@@ -34,10 +35,9 @@ class citywall_OT_(Operator):
     inner_radius = 0
     
     gate_radius =  0
-    GATE_HEIGHT = 1
-    GATE_WIDTH = 1.4
-    #todo: wenn identisch warum eigener Wert?
-    wall_width = wall_thickness
+    GATE_HEIGHT = 4
+    GATE_WIDTH = 3
+
     wall_vertices = 32
 
 ## generiert einzelnen Turm
@@ -195,8 +195,6 @@ class citywall_OT_(Operator):
         self.inner_radius = self.radius - self.wall_thickness
         
         self.gate_radius =  math.radians(360/self.tower_count)
-        #todo: warum eigener Wert?
-        self.wall_width = self.wall_thickness
 
         #Default 32 = Kreis
         if(context.scene.is_round == False):
@@ -209,12 +207,9 @@ class citywall_OT_(Operator):
         houseClass = generate_house_circle()
         houseClass.generate(self.tower_count, self.radius, context.scene.is_round, self.wall_thickness)
 
+        #User will Kirche
+        if context.scene.has_church:
+            church_class = church()
+            church_class.generate_church()
+
         return{'FINISHED'}
-
-
-#Spawnen von gescaltem Cube und Zylinder
-
-#Platzieren von Objekten an richtiger Location
-
-#Einfach Code kopieren von Turmplatzierung (bzw dort reinkopieren)
-#Da dann Abstandsberechnung für Position und halben Winkelabstand für Rotation
