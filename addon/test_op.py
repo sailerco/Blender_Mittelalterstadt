@@ -5,7 +5,8 @@ PROPS=  [
             ('tower_count', bpy.props.IntProperty(name = 'Tower', description='int value of Towers', default=7, min=5, max=15)),
             ('radius', bpy.props.IntProperty(name = 'Radius', description='int value of Radius', default=40, min=15, max=200)),
             ('has_church', bpy.props.BoolProperty(name='Show church', default=True)),
-            ('is_round', bpy.props.BoolProperty(name='Round shape', default=False))
+            ('is_round', bpy.props.BoolProperty(name='Round shape', default=False)),
+            ('color_roof', bpy.props.FloatVectorProperty(name="Roof color Tower", subtype="COLOR",size=4,min=0.0,max=1.0,default=(1.0, 1.0, 1.0, 1.0)))
         ]
 
 class test_OT_test(Operator):

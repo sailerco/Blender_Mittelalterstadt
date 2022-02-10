@@ -27,6 +27,7 @@ class citywall_OT_(Operator):
 
     roof_height = 4
     roof_overhang = 0.5
+    roof_color = (1.0, 1.0, 1.0, 1.0)
 
     texture_scale = 20
  
@@ -67,7 +68,7 @@ class citywall_OT_(Operator):
 
         mat_tower_roof = bpy.data.materials.new("tower_roof")
         mat_tower_roof.use_nodes = True
-        mat_tower_roof.node_tree.nodes["Principled BSDF"].inputs[0].default_value = [0.07, 0.31, 0.19, 1.0]
+        mat_tower_roof.node_tree.nodes["Principled BSDF"].inputs[0].default_value = self.roof_color
 
         bpy.ops.mesh.primitive_cone_add(radius1= self.tower_radius + self.roof_overhang, radius2=0, depth=self.roof_height, location=(tower_location[0], tower_location[1], tower_height + self.roof_height / 2))
 
@@ -199,6 +200,8 @@ class citywall_OT_(Operator):
         #Default 32 = Kreis
         if(context.scene.is_round == False):
             self.wall_vertices = self.tower_count
+        
+        self.roof_color = context.scene.color_roof
 
         self.generate_towers()
         self.generate_wall()
