@@ -22,8 +22,8 @@ class cityWall():
     INNER_RADIUS = RADIUS - wall_thickness
     
     gate_radius =  math.radians(360/TOWER_COUNT)
-    GATE_HEIGHT = 1
-    GATE_WIDTH = 1.4
+    GATE_HEIGHT = 4
+    GATE_WIDTH = 3
     WALL_WIDTH = wall_thickness
     kreis = False
     if(kreis):
@@ -83,12 +83,12 @@ class cityWall():
         
         wall_obj = wall;
         
-        for i in range(self.TOWER_COUNT+1):
-            x_value = math.sin(2*math.pi/self.TOWER_COUNT * (i + 0.5)) * self.RADIUS -1
-            y_value = math.cos(2*math.pi/self.TOWER_COUNT * (i +0.5)) * self.RADIUS -1
+        for i in range(self.TOWER_COUNT):
+            x_value = math.sin(2*math.pi/self.TOWER_COUNT * (i + 0.5)) * self.RADIUS 
+            y_value = math.cos(2*math.pi/self.TOWER_COUNT * (i +0.5)) * self.RADIUS 
            
             #gate_cube =      
-            bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.WALL_WIDTH + 1, self.GATE_WIDTH, self.GATE_HEIGHT))
+            bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.RADIUS, self.GATE_WIDTH, self.GATE_HEIGHT))
             gate_cube = bpy.context.object
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
             #bpy.context.object.display_type = 'WIRE'
@@ -99,7 +99,7 @@ class cityWall():
             wall_boolean.object = gate_cube
             
             #gate_cylinder = 
-            bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.WALL_WIDTH + 1))
+            bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.RADIUS))
             gate_cylinder = bpy.context.object
             bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
             bpy.ops.transform.rotate(value=(2*math.pi/self.TOWER_COUNT * i+math.pi/self.TOWER_COUNT) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
