@@ -2,7 +2,7 @@ import bpy
 import math
 
 class well:
-    filepath = "//Medival Assets/well_normalSized.blend"
+    filepath = "/medival_assets/well_normalSized.blend"
     coll_name = "Main_"
     link = False
     link_to_name = "Well"

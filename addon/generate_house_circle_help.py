@@ -3,7 +3,7 @@ import math
 import random
 
 class generate_house_circle:
-    filepath = "//Medival Assets/Medieval_houses_red.blend"
+    filepath = "/medival_assets/Medieval_houses_red.blend"
     coll_name = "Main_"
     link = False
     link_to_name = "Environment"
