@@ -1,12 +1,13 @@
 import bpy
 import math
 import random
+import os
 
 class generate_house_circle:
-    filepath = "/medival_assets/Medieval_houses_red.blend"
+    filepath = os.path.dirname(__file__) + "\medival_assets\Medieval_houses_red.blend"
     coll_name = "Main_"
     link = False
-    link_to_name = "Environment"
+    link_to_name = "Environment" 
 
     #Start Code von: https://blender.stackexchange.com/questions/34540/how-to-link-append-a-data-block-using-the-python-api?noredirect=1&lq=1
     def generateAssets(self):
