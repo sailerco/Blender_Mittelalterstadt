@@ -67,7 +67,7 @@ class generate_house_circle:
         assets = self.generateAssets()
         add_radius = 1
         house_number_per_circle = 5 
-        rad = 15
+        rad = 13
         radius = radius - wall_thickness - 2.2 #2.2 = half house
         rows = int(((radius)/rad))
         for j in range(rows):
