@@ -214,7 +214,7 @@ class citywall_OT_(Operator):
         wellClass = well()
         wellClass.generateWell()
 
-        #User will Kirche
+        #Kirche
         if context.scene.has_church:
             church_class = church()
             church_class.generate_church()
