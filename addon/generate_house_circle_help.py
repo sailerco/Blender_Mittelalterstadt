@@ -1,15 +1,14 @@
 import bpy
 import math
 import random
-from mathutils import Matrix
 
 class generate_house_circle:
-    #https://blender.stackexchange.com/questions/34540/how-to-link-append-a-data-block-using-the-python-api?noredirect=1&lq=1
     filepath = "//Medival Assets/Medieval_houses_red.blend"
     coll_name = "Main_"
     link = False
     link_to_name = "Environment"
 
+    #Start Code von: https://blender.stackexchange.com/questions/34540/how-to-link-append-a-data-block-using-the-python-api?noredirect=1&lq=1
     def generateAssets(self):
         with bpy.data.libraries.load(self.filepath, link=self.link) as (data_from, data_to):
             data_to.objects = [
@@ -24,12 +23,15 @@ class generate_house_circle:
             bpy.context.scene.collection.children.link(link_to)
         return link_to
     
+    # Ende Code von blender.stackexchange.com 
+
     def generateHouse(self, x, y, angle, assets):
         link_to = self.generateCollection()
         offset = random.randint(-1, 1)*0.3
         a = random.randint(0, 3) #house type
-        b = random.randint(0, 2) #Sign?
+        b = random.randint(0, 2) #Sign
         house = []
+        # Assets zusammen setzen 
         for coll in assets:
             content = True
             if (b == 0 and (a == 0 or a == 2) and coll.name.endswith("Sign")):
@@ -67,13 +69,14 @@ class generate_house_circle:
         assets = self.generateAssets()
         add_radius = 1
         house_number_per_circle = 5 
-        rad = 13
+        rad = 13 #Entscheidet wie dich Häuser aneinander sind 
         radius = radius - wall_thickness - 2.2 #2.2 = half house
         rows = int(((radius)/rad))
+        #Generiert Häuser
         for j in range(rows):
             for i in range(house_number_per_circle):
                 angle = math.radians(random.randint(0,359))
-                if tower_count < 8 and j == rows-1 and is_round == False and radius < 40:        #fügt Häuser an Ecken ein bei wenig Ecken
+                if tower_count < 8 and j == rows-1 and is_round == False and radius < 40:  #fügt Häuser an Ecken ein bei wenig Ecken
                     for z in range(tower_count):
                         x = math.sin(math.pi * 2/tower_count*(z)) * rad * add_radius
                         y = math.cos(math.pi * 2/tower_count*(z)) * rad * add_radius

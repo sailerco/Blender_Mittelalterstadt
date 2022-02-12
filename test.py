@@ -2,6 +2,7 @@ import bpy
 import random
 import math
 
+#Alles löschen
 
 bpy.ops.object.select_all(action='SELECT') # selektiert alle Objekte
 bpy.ops.object.delete(use_global=False, confirm=False) # löscht selektierte objekte

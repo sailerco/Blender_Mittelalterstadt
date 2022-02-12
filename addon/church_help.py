@@ -22,7 +22,6 @@ class church():
 
         return material
 
-
 ##Fenster
 
     ## Fenster Kernteil der Kirche
@@ -131,7 +130,6 @@ class church():
     ##tower two
         tower_location_two = (self.church_base_location[0] + (-self.church_base_width * 1.1 + self.tower_width), self.church_base_location[1] + (self.church_base_length * 1.1 - self.tower_width), self.church_base_height)
         self.generate_single_tower(tower_location_two)
-
 
     def generate_church(self):
         self.generate_church_base()

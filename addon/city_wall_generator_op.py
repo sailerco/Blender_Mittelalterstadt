@@ -1,5 +1,3 @@
-from multiprocessing import context
-from pickle import FALSE
 import bpy
 import math
 from bpy.types import Operator
@@ -14,13 +12,9 @@ class citywall_OT_(Operator):
     bl_label = "Add Citywall and Tower"
     bl_description = "Adds the citywall and towers as given by the user"
 
-    #für andere classes 
-    scene_context = bpy.context
-    scene_data = bpy.data
-
-    #Werden vom Userinput teilweise überschrieben/neuberechnet siehe execute
-    tower_count = 5
-    radius = 50
+    #Werden vom Userinput teilweise überschrieben/neuberechnet siehe execute()
+    tower_count = 0
+    radius = 0
     
     tower_height = 12
     tower_radius = 2
@@ -42,7 +36,7 @@ class citywall_OT_(Operator):
 
     wall_vertices = 32
 
-## generiert einzelnen Turm
+    #generiert einzelnen Turm, Code ähnlich Vorlesung 
     def generate_base(self, tower_location, tower_height):
         bpy.ops.mesh.primitive_cylinder_add(radius=self.tower_radius, depth=tower_height, location=tower_location)
         
@@ -75,10 +69,9 @@ class citywall_OT_(Operator):
 
         bpy.context.object.data.materials.append(mat_tower_roof) 
         
-##generiert alle Türme
+    #generiert alle Türme, Code aus Vorlesung (Monkey Circle)
     def generate_towers(self):
         for i in range(self.tower_count):
-        #my_tower = tower()
             x_value = math.sin(2*math.pi/self.tower_count * i) * self.radius
             y_value = math.cos(2*math.pi/self.tower_count * i) * self.radius
             tower_location=(x_value, y_value, self.tower_height/2)
@@ -93,7 +86,7 @@ class citywall_OT_(Operator):
             x_value = math.sin(2*math.pi/self.tower_count * (i + 0.5)) * self.radius 
             y_value = math.cos(2*math.pi/self.tower_count * (i +0.5)) * self.radius 
            
-            #gate_cube     
+            #gate_cube zum ausschneiden     
             bpy.ops.mesh.primitive_cube_add(location=(x_value, y_value, 0), scale=(self.radius, self.GATE_WIDTH, self.GATE_HEIGHT))
             gate_cube = bpy.context.object
             bpy.ops.transform.rotate(value=(2*math.pi/self.tower_count * i+math.pi/self.tower_count) + 1.5708, orient_axis='Z', orient_type='GLOBAL')
@@ -102,7 +95,7 @@ class citywall_OT_(Operator):
             wall_boolean = wall_obj.modifiers.new("booleantop", "BOOLEAN")
             wall_boolean.object = gate_cube
             
-            #gate_cylinder
+            #gate_cylinder zum ausschneiden 
             bpy.ops.mesh.primitive_cylinder_add(enter_editmode=False, align='WORLD', location=(x_value, y_value, self.GATE_HEIGHT), scale=(1, self.GATE_WIDTH, self.radius))
             gate_cylinder = bpy.context.object
             bpy.ops.transform.rotate(value=1.5708, orient_axis='Y', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
@@ -162,7 +155,7 @@ class citywall_OT_(Operator):
         
         self.generateGates(cube_contextBigC)
 
-    ## generiert Boden für die gesamte Stadt
+    #generiert Boden für die gesamte Stadt
     def generate_city_floor(self):
         bpy.ops.mesh.primitive_cylinder_add(vertices=self.wall_vertices, radius=self.radius, depth=0.1, location=(0, 0, -0.05))
 
@@ -187,10 +180,11 @@ class citywall_OT_(Operator):
        
         bpy.context.object.data.materials.append(mat_floor)        
 
-    #Keine Paramter löschen, wird zum Erkennen benögitgt 
+    #Keine Paramter löschen, wird zum Erkennen benögitgt, generiert alle Elemente des Addons 
     def execute(self, context):
         #Userinput übernehmen/ damit rechnen
         self.tower_count = context.scene.tower_count
+        self.roof_color = context.scene.color_roof
         self.radius = context.scene.radius
 
         self.wall_thickness= self.tower_radius-0.5
@@ -202,8 +196,6 @@ class citywall_OT_(Operator):
         if(context.scene.is_round == False):
             self.wall_vertices = self.tower_count
         
-        self.roof_color = context.scene.color_roof
-
         self.generate_towers()
         self.generate_wall()
         self.generate_city_floor()
